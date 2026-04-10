@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>森のあいことば</title>
+    <style>
+        /* 全体の設定 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* 背景画像の設定 */
+            background-image: url('image_0.jng'); /* ここにアップロードした画像ファイル名を指定 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Hiragino Mincho ProN', 'Georgia', serif; /* クラフト感と高級感のある明朝体 */
+        }
+
+        /* --- コンテンツ (テキスト) --- */
+        .container {
+            text-align: center;
+            z-index: 10;
+            /* 最初は透明で、ふわっと表示 */
+            opacity: 0;
+            transform: translateY(30px); /* 少し下から */
+            animation: fadeInAndRise 2s ease-out forwards;
+        }
+
+        .keyword-text {
+            display: inline-block;
+            padding: 20px;
+            /* 森の中に溶け込むような、少しザラッとした質感の影 */
+            text-shadow: 
+                2px 2px 6px rgba(0, 0, 0, 0.8),
+                -1px -1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* 「あいことば③」：白色 */
+        .phrase {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        /* 「”オ”」：オレンジ色 */
+        .keyword {
+            font-size: 6rem;
+            color: #ff8c00; /* 鮮やかなオレンジ */
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+            /* オレンジの文字を際立たせる白の縁取りと、光彩 */
+            text-shadow: 
+                0 0 25px rgba(255, 140, 0, 1), /* 光彩を強調 */
+                2px 2px 0 #fff,
+                -2px -2px 0 #fff,
+                2px -2px 0 #fff,
+                -2px 2px 0 #fff;
+            animation: keywordGlow 4s infinite ease-in-out; /* 光るアニメーションを追加 */
+        }
+
+        /* --- アニメーション定義 --- */
+        
+        /* 画面全体がふわっと出て、浮かび上がる */
+        @keyframes fadeInAndRise {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* オレンジの文字がさらに光る */
+        @keyframes keywordGlow {
+            0%, 100% { text-shadow: 0 0 25px rgba(255, 140, 0, 1), 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff; }
+            50% { text-shadow: 0 0 35px rgba(255, 140, 0, 1), 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff; }
+        }
+
+        /* 木漏れ日の光の粒スタイル (前回のものを洗練) */
+        .light-particle {
+            position: absolute;
+            background-color: rgba(255, 255, 200, 0.4); /* 薄い黄色の光 */
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(4px); /* 少しぼかす */
+            z-index: 3;
+            animation: lightFall linear infinite;
+        }
+
+        /* 光の粒が上から下へ舞い落ちる */
+        @keyframes lightFall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="keyword-text">
+            <div class="phrase">あいことば③</div>
+            <span class="keyword">”オ”</span>
+        </div>
+    </div>
+
+    <script>
+        function createLight() {
+            const container = document.body;
+            const light = document.createElement('div');
+            light.classList.add('light-particle');
+            
+            // ランダムなサイズと位置
+            const size = Math.random() * 30 + 15 + 'px'; // 15px〜45px
+            light.style.width = size;
+            light.style.height = size;
+            light.style.left = Math.random() * 100 + 'vw';
+            
+            // ランダムなアニメーション時間（落ちるスピード）
+            const duration = Math.random() * 6 + 10 + 's'; // 10s〜16s
+            light.style.animationDuration = duration;
+            
+            // ランダムな開始遅延
+            light.style.animationDelay = Math.random() * 5 + 's';
+
+            container.appendChild(light);
+
+            // アニメーション終了後に要素を削除（メモリ対策）
+            setTimeout(() => {
+                light.remove();
+            }, 21000); // アニメーション時間より長く設定
+        }
+
+        // 最初にいくつか生成し、その後一定間隔で生成
+        for(let i=0; i<25; i++) {
+            createLight();
+        }
+        setInterval(createLight, 350); // 0.35秒ごとに新しい光を生成
+    </script>
+</body>
+</html>
