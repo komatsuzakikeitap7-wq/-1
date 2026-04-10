@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>あいことばを集めよう！</title>
+    <style>
+        /* 全体の背景設定：柔らかな春色 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e1 100%);
+            overflow: hidden;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: #d85f7d;
+        }
+
+        /* コンテンツの配置 */
+        .container {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .keyword-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px 40px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(216, 95, 125, 0.2);
+            border: 2px dashed #ffb7c5;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .keyword-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .highlight {
+            font-size: 2.5rem;
+            color: #e91e63;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* 桜の花びらアニメーション */
+        .sakura {
+            position: absolute;
+            background-color: #ffb7c5; /* 花びらの色 */
+            border-radius: 150% 0 150% 0;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        /* アニメーション定義 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>QRコードを読み込んで、<br>あいことばを集めよう！</h1>
+        <div class="keyword-box">
+            <div class="keyword-text">
+                あいことば①
+                <span class="highlight">”ラ”</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createSakura() {
+            const sakura = document.createElement('div');
+            sakura.classList.add('sakura');
+            
+            // ランダムなサイズと位置
+            const size = Math.random() * 10 + 10 + 'px';
+            sakura.style.width = size;
+            sakura.style.height = size;
+            sakura.style.left = Math.random() * 100 + 'vw';
+            
+            // ランダムなアニメーション時間
+            const duration = Math.random() * 3 + 4 + 's';
+            sakura.style.animationDuration = duration;
+            
+            document.body.appendChild(sakura);
+
+            // アニメーション終了後に要素を削除
+            setTimeout(() => {
+                sakura.remove();
+            }, 7000);
+        }
+
+        // 一定間隔で桜を生成
+        setInterval(createSakura, 300);
+    </script>
+</body>
+</html>
