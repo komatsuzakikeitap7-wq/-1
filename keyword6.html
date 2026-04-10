@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パワー全開！ン！</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffcc00 0%, #ff6600 100%);
+            overflow: hidden;
+            font-family: 'Impact', 'Arial Black', "Hiragino Sans", sans-serif;
+            color: #fff;
+        }
+
+        /* 集中線を背景として固定 */
+        .radial-lines {
+            position: fixed; /* absoluteから変更 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-radial-gradient(circle at center, transparent, transparent 50px, rgba(255, 255, 255, 0.1) 50px, rgba(255, 255, 255, 0.1) 100px);
+            z-index: 1; /* 背景は一番下 */
+            animation: radialRotate 20s linear infinite;
+        }
+
+        /* 文字のコンテナを最前面へ */
+        .container {
+            text-align: center;
+            position: relative; /* z-indexを有効にするために追加 */
+            z-index: 100; /* 確実に一番上に持ってくる */
+            /* 万が一アニメが動かなくても見えるようにopacityは1に */
+            opacity: 1; 
+            animation: powerEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .phrase {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        .keyword {
+            font-size: 9rem;
+            color: #ff0000; 
+            font-weight: 900;
+            display: block;
+            /* 縁取りをさらに太く、確実に目立たせる */
+            text-shadow: 
+                4px 4px 0 #fff,
+                -4px -4px 0 #fff,
+                4px -4px 0 #fff,
+                -4px 4px 0 #fff,
+                8px 8px 0 #ffd700;
+            animation: muscleFlex 0.3s infinite alternate;
+        }
+
+        @keyframes powerEntrance {
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes muscleFlex {
+            from { transform: rotate(-3deg) scale(1); }
+            to { transform: rotate(3deg) scale(1.1); }
+        }
+
+        @keyframes radialRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ビックリマーク */
+        .exclamation {
+            position: absolute;
+            font-weight: 900;
+            pointer-events: none;
+            z-index: 50; /* 文字よりは後ろ、背景よりは前 */
+            animation: exclamationFly linear infinite;
+        }
+
+        @keyframes exclamationFly {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="radial-lines"></div>
+
+    <div class="container">
+        <div class="phrase">あいことば⑥</div>
+        <span class="keyword">”ン”</span>
+    </div>
+
+    <script>
+        function createExclamation() {
+            const exclamation = document.createElement('div');
+            exclamation.classList.add('exclamation');
+            exclamation.textContent = '!';
+            
+            exclamation.style.fontSize = Math.random() * 3 + 2 + 'rem';
+            exclamation.style.left = '50vw';
+            exclamation.style.top = '50vh';
+            exclamation.style.color = ['#fff', '#ffcc00', '#ff0000'][Math.floor(Math.random() * 3)];
+            
+            exclamation.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'vw');
+            exclamation.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'vh');
+            
+            exclamation.style.animationDuration = Math.random() * 1 + 1 + 's';
+            document.body.appendChild(exclamation);
+
+            setTimeout(() => exclamation.remove(), 2000);
+        }
+
+        setInterval(createExclamation, 200);
+    </script>
