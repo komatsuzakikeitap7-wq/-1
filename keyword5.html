@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秘密のあいことば</title>
+    <style>
+        /* 全体の設定：深く、落ち着いた雰囲気 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 深いボルドーと黒のグラデーション */
+            background: radial-gradient(circle at center, #2c0010 0%, #050002 100%);
+            overflow: hidden;
+            /* 少し高級感と色気のある明朝体 */
+            font-family: 'Hiragino Mincho ProN', 'Georgia', serif;
+            color: #fff;
+        }
+
+        /* コンテンツの配置 */
+        .container {
+            text-align: center;
+            z-index: 10;
+            /* 最初は透明で、ふわっと現れる */
+            opacity: 0;
+            animation: fadeInSlightly 2.5s ease-out forwards;
+        }
+
+        .keyword-text {
+            display: inline-block;
+            padding: 20px;
+        }
+
+        /* 「あいことば⑤」：落ち着いたピンクゴールド */
+        .phrase {
+            font-size: 1.5rem;
+            color: #ffb7c5; /* 薄いピンク */
+            margin-bottom: 15px;
+            letter-spacing: 4px; /* 文字間隔を広げて少しミステリアスに */
+            /* ほのかな光沢 */
+            text-shadow: 0 0 10px rgba(255, 183, 197, 0.5);
+        }
+
+        /* 「”エ”」：妖艶に光るネオン */
+        .keyword {
+            font-size: 7rem;
+            /* 鮮やかで妖艶なマゼンタ（赤紫） */
+            color: #ff1493; 
+            font-weight: bold;
+            display: block;
+            margin-top: 25px;
+            /* ネオンのような多重の光彩（Glow）効果 */
+            text-shadow: 
+                0 0 10px #ff1493,
+                0 0 20px #ff1493,
+                0 0 40px #ff1493,
+                0 0 70px #ff1493,
+                0 0 100px #ff1493;
+            /* 心臓の鼓動のようなパルスアニメーション */
+            animation: neonPulse 3s infinite ease-in-out;
+        }
+
+        /* --- アニメーション定義 --- */
+        
+        /* 画面全体がふわっと現れる */
+        @keyframes fadeInSlightly {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* ネオンの光がゆっくりと鼓動（明滅）する */
+        @keyframes neonPulse {
+            0%, 100% { 
+                opacity: 1;
+                text-shadow: 
+                    0 0 10px #ff1493, 
+                    0 0 20px #ff1493, 
+                    0 0 40px #ff1493; 
+            }
+            50% { 
+                opacity: 0.8; /* 少し暗くなる */
+                text-shadow: 
+                    0 0 15px #ff69b4, /* より明るいピンクに */
+                    0 0 30px #ff69b4, 
+                    0 0 60px #ff1493, 
+                    0 0 90px #ff1493; 
+            }
+        }
+
+        /* 背景に漂う浮遊光（ムード演出） */
+        .ambient-light {
+            position: absolute;
+            background-color: rgba(136, 14, 79, 0.2); /* 深いボルドー */
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(50px); /* 大きくぼかす */
+            z-index: 1;
+            animation: lightDrift linear infinite;
+        }
+
+        /* 光が画面内をゆっくりと漂う */
+        @keyframes lightDrift {
+            0% { transform: translateY(110vh) translateX(-20vw); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(20vw); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="keyword-text">
+            <div class="phrase">あいことば⑤</div>
+            <span class="keyword">”エ”</span>
+        </div>
+    </div>
+
+    <script>
+        function createAmbientLight() {
+            const container = document.body;
+            const light = document.createElement('div');
+            light.classList.add('ambient-light');
+            
+            // ランダムなサイズと位置（大きくぼかした光）
+            const size = Math.random() * 200 + 100 + 'px'; // 100px〜300px
+            light.style.width = size;
+            light.style.height = size;
+            light.style.left = Math.random() * 100 + 'vw';
+            
+            // ランダムなアニメーション時間（ゆっくりと漂う）
+            const duration = Math.random() * 10 + 15 + 's'; // 15s〜25s
+            light.style.animationDuration = duration;
+            
+            // ランダムな開始遅延
+            light.style.animationDelay = Math.random() * 10 + 's';
+
+            container.appendChild(light);
+
+            // アニメーション終了後に要素を削除
+            setTimeout(() => {
+                light.remove();
+            }, 30000); 
+        }
+
+        // 最初にいくつか生成し、その後一定間隔で生成
+        for(let i=0; i<8; i++) {
+            createAmbientLight();
+        }
+        setInterval(createAmbientLight, 3000); // 3秒ごとに新しい光を生成
+    </script>
+</body>
+</html>
