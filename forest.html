@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>森のあいことば</title>
     <style>
-        /* 全体の背景設定：鮮やかな森のグラデーション */
+        /* 全体の設定 */
         body {
             margin: 0;
             padding: 0;
@@ -13,14 +13,69 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* 深い緑から鮮やかな緑へのグラデーション */
-            background: linear-gradient(135deg, #1a4d1a 0%, #32cd32 100%);
             overflow: hidden;
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: #fff;
+            /* 森の奥深さを表現するベースの緑 */
+            background-color: #1a4d1a;
+            font-family: 'Hiragino Mincho ProN', 'Georgia', serif; /* 少しクラフト感のあるセリフ体 */
         }
 
-        /* コンテンツの配置 */
+        /* --- 森のイラスト背景 (CSSのみで表現) --- */
+        .forest-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 木立 */
+        .forest-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* 遠くの木立 */
+                linear-gradient(90deg, #133a13 5px, transparent 5px) 0 0 / 50px 100%,
+                linear-gradient(90deg, #133a13 3px, transparent 3px) 25px 0 / 60px 100%,
+                /* 近くの木立 */
+                linear-gradient(90deg, #0d290d 10px, transparent 10px) 10px 0 / 80px 100%,
+                linear-gradient(90deg, #0d290d 8px, transparent 8px) 50px 0 / 90px 100%;
+            opacity: 0.6;
+        }
+
+        /* 葉っぱの重なり */
+        .forest-background::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: 
+                radial-gradient(circle at 20% 120%, #2e8b57 0%, #2e8b57 40%, transparent 42%) 0 0 / 200px 200px,
+                radial-gradient(circle at 80% 130%, #3cb371 0%, #3cb371 35%, transparent 37%) 100px 0 / 180px 180px,
+                radial-gradient(circle at 50% 140%, #228b22 0%, #228b22 50%, transparent 52%) -50px 0 / 250px 250px;
+            opacity: 0.8;
+            filter: blur(1px); /* 少しぼかして柔らかく */
+        }
+
+        /* 木漏れ日の光線 */
+        .sun-rays {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 220, 0.1) 0%, transparent 50%, rgba(255, 255, 220, 0.05) 100%);
+            z-index: 2;
+            animation: raysSway 10s infinite ease-in-out;
+        }
+
+        /* --- コンテンツ (テキスト) --- */
         .container {
             text-align: center;
             z-index: 10;
@@ -29,107 +84,32 @@
             animation: fadeInSlightly 2s ease-out forwards;
         }
 
-        .keyword-box {
-            background: rgba(255, 255, 255, 0.2); /* 半透明の白で文字を目立たせる */
-            padding: 30px 50px;
-            border-radius: 20px;
-            display: inline-block;
-            backdrop-filter: blur(5px); /* 背景をぼかして幻想的に */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: gentleFloat 4s infinite ease-in-out;
-        }
-
         .keyword-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 20px;
+            /* 森の中に溶け込むような、少しザラッとした質感の影 */
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.5),
+                -1px -1px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .highlight {
-            font-size: 3.5rem;
-            color: #ccff00; /* 蛍光っぽい黄色で「オ」を目立たせる */
+        /* 「あいことば③」：白色 */
+        .phrase {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* 「”オ”」：オレンジ色 */
+        .keyword {
+            font-size: 5rem;
+            color: #ff8c00; /* 鮮やかなオレンジ */
+            font-weight: bold;
             display: block;
             margin-top: 15px;
-            text-shadow: 0 0 15px rgba(204, 255, 0, 0.8); /* 文字を光らせる */
-        }
-
-        /* 木漏れ日の光の粒スタイル */
-        .light-particle {
-            position: absolute;
-            background-color: rgba(255, 255, 200, 0.6); /* 薄い黄色の光 */
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(2px); /* 少しぼかす */
-            animation: lightRise linear infinite;
-        }
-
-        /* アニメーション定義 */
-        
-        /* 画面全体がふわっと出る */
-        @keyframes fadeInSlightly {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* 文字が優雅に浮き沈みする */
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* 光の粒が下から上へ昇る */
-        @keyframes lightRise {
-            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="keyword-box">
-            <div class="keyword-text">
-                あいことば③
-                <span class="highlight">”オ”</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function createLight() {
-            const container = document.body;
-            const light = document.createElement('div');
-            light.classList.add('light-particle');
-            
-            // ランダムなサイズと位置
-            const size = Math.random() * 20 + 10 + 'px'; // 10px〜30px
-            light.style.width = size;
-            light.style.height = size;
-            light.style.left = Math.random() * 100 + 'vw';
-            
-            // ランダムなアニメーション時間（昇るスピード）
-            const duration = Math.random() * 4 + 6 + 's'; // 6s〜10s
-            light.style.animationDuration = duration;
-            
-            // ランダムな開始遅延
-            light.style.animationDelay = Math.random() * 5 + 's';
-
-            container.appendChild(light);
-
-            // アニメーション終了後に要素を削除（メモリ対策）
-            setTimeout(() => {
-                light.remove();
-            }, 15000); // アニメーション時間より長く設定
-        }
-
-        // 最初にいくつか生成し、その後一定間隔で生成
-        for(let i=0; i<15; i++) {
-            createLight();
-        }
-        setInterval(createLight, 500); // 0.5秒ごとに新しい光を生成
-    </script>
-</body>
-</html>
+            /* オレンジの文字を際立たせる白の縁取り */
+            text-shadow: 
+                0 0 10px rgba(255, 140, 0, 0.8),
+                2px 2px 0 #fff,
+                -
