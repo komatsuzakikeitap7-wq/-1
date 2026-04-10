@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最終ミッション：あいことば</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #eceff1; /* 少しクールなグレー系の背景 */
+            font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            /* 画面の中心から少し上側に配置 */
+            transform: translateY(-15%); 
+        }
+
+        .prompt-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* 入力欄のデザイン */
+        .keyword-input {
+            font-size: 2rem;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+            letter-spacing: 8px; /* 文字の間隔を空けてパスワードっぽく */
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+            background-color: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* 入力欄を選択した時の色 */
+        .keyword-input:focus {
+            border-color: #546e7a;
+            box-shadow: 0 0 10px rgba(84, 110, 122, 0.3);
+        }
+
+        /* 送信ボタンのデザイン */
+        .submit-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #546e7a;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover {
+            background-color: #37474f;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95); /* 押した時に少し凹む */
+        }
+        
+        /* エラーメッセージ */
+        #error-message {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-top: 15px;
+            min-height: 20px; /* メッセージがない時も高さを確保 */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="prompt-text">あいことばを言え</div>
+        
+        <input type="text" id="keyword" class="keyword-input" maxlength="6" placeholder="入力せよ">
+        
+        <div id="error-message">あいことばが違います</div>
+        
+        <button class="submit-btn" onclick="checkKeyword()">送信</button>
+    </div>
+
+    <script>
+        function checkKeyword() {
+            // 入力された文字を取得
+            const inputVal = document.getElementById('keyword').value;
+            const errorMsg = document.getElementById('error-message');
+
+            // 「ラブオリエン」または「ラヴオリエン」と完全に一致するか判定
+            if (inputVal === 'ラブオリエン' || inputVal === 'ラヴオリエン') {
+                // 正解の場合：指定されたGoogle Driveのリンクへ遷移
+                window.location.href = 'https://drive.google.com/file/d/1O5OjeRJ7LLyRXoXNVvUl7hPi1HBEZtOf/view?usp=drive_link';
+            } else {
+                // 不正解の場合：エラーメッセージを表示
+                errorMsg.style.opacity = '1';
+                
+                // 入力欄を空にして、3秒後にエラーメッセージを消す
+                setTimeout(() => {
+                    document.getElementById('keyword').value = '';
+                    errorMsg.style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        // エンターキーを押した時にも「送信」ボタンを押したのと同じ動作にする
+        document.getElementById('keyword').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkKeyword();
+            }
+        });
+    </script>
+</body>
+</html>
